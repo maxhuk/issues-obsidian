@@ -203,7 +203,8 @@ Contents, top to bottom:
 1. Key and an "Open note" button. Open note opens the issue in a new split on desktop and in the main view on mobile.
 2. Title, editable inline. Blur or Enter saves.
 3. Property controls: status (dropdown over the project's statuses, applying 4.3), type (two-way toggle), priority (dropdown), labels (chip input with suggestions from labels used in the project), parent (search over the project's issues by key or title, clearable), and, with releases on and only while the status is `status_released`, release (dropdown over the project's releases, clearable; clearing moves the issue to the "No release" group).
-4. The note body rendered as Markdown, read-only. Wikilinks and embeds resolve as in a normal note.
+4. Two read-only dates: Created, from the `created` property (the file's creation time when the property is missing), and Modified, the file's modification time shown relatively with the exact time on hover. Modified reflects any edit to the note, by whatever wrote it.
+5. The note body rendered as Markdown, read-only. Wikilinks and embeds resolve as in a normal note.
 
 Every control writes through the frontmatter API immediately. There is no save button.
 

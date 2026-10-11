@@ -1,4 +1,4 @@
-import { MarkdownRenderer, setIcon, setTooltip, type App, type Component } from 'obsidian';
+import { MarkdownRenderer, moment, setIcon, setTooltip, type App, type Component } from 'obsidian';
 import type { Issue } from '../../types';
 import type { Actions, ViewModel } from '../types';
 import { readBody } from '../../vault/template';
@@ -32,6 +32,7 @@ export function renderDetailPanel(parent: HTMLElement, issue: Issue, model: View
 	renderLabels(props, issue, model, actions);
 	renderParent(props, issue, actions);
 	if (model.config.releases && issue.status === model.config.statusReleased) renderRelease(props, issue, model, actions);
+	renderDates(props, issue, ctx);
 
 	const body = panel.createDiv({ cls: 'issues-body-render markdown-rendered' });
 	void readBody(ctx.app, issue.path).then((markdown) => {
@@ -133,6 +134,17 @@ function renderParent(parent: HTMLElement, issue: Issue, actions: Actions): void
 	const value = field(parent, 'Parent');
 	const button = value.createEl('button', { cls: 'issues-parent-button', text: issue.parent ?? 'Set parent' });
 	button.addEventListener('click', () => actions.pickParent(issue));
+}
+
+/** Created comes from the property; modified is the file's own timestamp, so edits by anything count. */
+function renderDates(parent: HTMLElement, issue: Issue, ctx: PanelContext): void {
+	const stat = ctx.app.vault.getFileByPath(issue.path)?.stat;
+	const created = issue.created ?? (stat ? moment(stat.ctime).format('YYYY-MM-DD') : null);
+	if (created !== null) field(parent, 'Created').createSpan({ cls: 'issues-prop-text', text: created });
+	if (stat) {
+		const modified = field(parent, 'Modified').createSpan({ cls: 'issues-prop-text', text: moment(stat.mtime).fromNow() });
+		setTooltip(modified, moment(stat.mtime).format('YYYY-MM-DD HH:mm'));
+	}
 }
 
 function renderRelease(parent: HTMLElement, issue: Issue, model: ViewModel, actions: Actions): void {
