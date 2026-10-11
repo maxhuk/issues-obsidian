@@ -6,6 +6,8 @@ Every issue is a Markdown note. Its frontmatter holds the data, a project note h
 
 Runs on desktop and mobile. Requires Obsidian 1.14 or later with the Bases core plugin enabled.
 
+![The Issues list embedded in a project note, with the detail panel open on the right](docs/images/overview.png)
+
 ## Contents
 
 - [What you get](#what-you-get)

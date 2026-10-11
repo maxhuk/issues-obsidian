@@ -69,7 +69,10 @@ export class IssuesView extends BasesView implements Actions {
 		const body = this.rootEl.createDiv({ cls: 'issues-body' });
 		this.listEl = body.createDiv({ cls: 'issues-list' });
 		this.panelEl = this.mountPanelSlot();
-		this.registerDomEvent(window, 'resize', () => this.layoutPanel());
+		const observer = new ResizeObserver(() => this.layoutPanel());
+		observer.observe(this.rootEl);
+		observer.observe(this.panelEl);
+		this.register(() => observer.disconnect());
 		this.drag = new DragController(this.listEl, {
 			isTouch: this.isPhone,
 			onBegin: () => this.beginInteraction(),
@@ -114,18 +117,18 @@ export class IssuesView extends BasesView implements Actions {
 		return host.createDiv({ cls: 'issues-panel-slot is-floating' });
 	}
 
-	/** Pads the whole view on the right only when the floating panel would cover it. */
+	/**
+	 * Pads the whole view on the right by exactly the width the floating panel covers.
+	 * The padding sits inside the view's box, so it does not move the edge being measured.
+	 */
 	private layoutPanel(): void {
 		if (!this.panelEl.hasClass('is-floating')) return;
 		if (!this.rootEl.hasClass('has-panel')) {
 			this.rootEl.setCssProps({ '--issues-panel-overlap': '0px' });
 			return;
 		}
-		this.rootEl.setCssProps({ '--issues-panel-overlap': '0px' });
-		window.requestAnimationFrame(() => {
-			const overlap = this.rootEl.getBoundingClientRect().right - this.panelEl.getBoundingClientRect().left;
-			this.rootEl.setCssProps({ '--issues-panel-overlap': `${Math.max(0, Math.ceil(overlap))}px` });
-		});
+		const overlap = this.rootEl.getBoundingClientRect().right - this.panelEl.getBoundingClientRect().left;
+		this.rootEl.setCssProps({ '--issues-panel-overlap': `${Math.max(0, Math.ceil(overlap))}px` });
 	}
 
 	onDataUpdated(): void {

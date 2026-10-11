@@ -70,6 +70,7 @@ issues-obsidian/
   docs/
     spec.md
     architecture.md
+    images/               screenshots used by the README
 ```
 
 A file over roughly 250 lines is a signal to split it along the responsibilities above.
