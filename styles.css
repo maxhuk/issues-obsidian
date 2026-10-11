@@ -459,18 +459,31 @@
 }
 
 .issues-panel-title {
+	display: block;
 	width: 100%;
+	box-sizing: border-box;
 	font-size: var(--font-ui-large);
 	font-weight: var(--font-semibold);
+	line-height: var(--line-height-tight);
 	background: transparent;
 	border: 1px solid transparent;
+	border-radius: var(--radius-s);
 	padding: var(--size-4-1);
 	margin-left: calc(-1 * var(--size-4-1));
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	cursor: text;
 }
 
-.issues-panel-title:hover,
-.issues-panel-title:focus {
+.issues-panel-title:hover {
 	border-color: var(--background-modifier-border);
+}
+
+.issues-panel-title.is-editing {
+	font-family: inherit;
+	resize: none;
+	overflow: hidden;
+	border-color: var(--background-modifier-border-focus);
 	background: var(--background-primary);
 }
 

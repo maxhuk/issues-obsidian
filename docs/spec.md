@@ -210,7 +210,7 @@ Opens when a row is clicked. On desktop it is a drawer anchored to the right edg
 Contents, top to bottom:
 
 1. Key, with a copy button that appears on hover (always on phones) and puts the key on the clipboard, and an "Open note" button. Open note opens the issue in a new split on desktop and in the main view on mobile.
-2. Title, editable inline. Blur or Enter saves.
+2. Title, shown as wrapping text so it always fits. Clicking it turns it into a growing text area; Enter or leaving the field saves, Escape cancels. Line breaks typed into the title are collapsed to spaces.
 3. Property controls: status (dropdown over the project's statuses, applying 4.3), type (two-way toggle), priority (dropdown), labels (chip input with suggestions from labels used in the project), parent (search over the project's issues by key or title, clearable), and, with releases on and only while the status is `status_released`, release (dropdown over the project's releases, clearable; clearing moves the issue to the "No release" group).
 4. Two read-only dates: Created, from the `created` property (the file's creation time when the property is missing), and Modified, the file's modification time shown relatively with the exact time on hover. Modified reflects any edit to the note, by whatever wrote it.
 5. The note body rendered as Markdown, read-only. Wikilinks and embeds resolve as in a normal note.

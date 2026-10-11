@@ -51,20 +51,43 @@ export function renderDetailPanel(parent: HTMLElement, issue: Issue, model: View
 	});
 }
 
+/** The title wraps as text; a click turns it into an auto-growing textarea. Enter saves, Escape cancels. */
 function renderTitle(panel: HTMLElement, issue: Issue, actions: Actions): void {
-	const input = panel.createEl('input', { cls: 'issues-panel-title', type: 'text', value: issue.title });
-	input.addEventListener('focus', () => actions.beginInteraction());
-	input.addEventListener('blur', () => {
-		actions.endInteraction();
-		const title = input.value.trim();
-		if (title !== '' && title !== issue.title) void actions.patchIssue(issue, { title });
-	});
-	input.addEventListener('keydown', (evt) => {
-		if (evt.key === 'Enter') input.blur();
-		if (evt.key === 'Escape') {
-			input.value = issue.title;
-			input.blur();
-		}
+	const display = panel.createDiv({ cls: 'issues-panel-title', text: issue.title });
+	setTooltip(display, 'Click to edit');
+	display.addEventListener('click', () => {
+		const editor = panel.createEl('textarea', { cls: 'issues-panel-title is-editing', attr: { rows: '1' } });
+		editor.value = issue.title;
+		display.replaceWith(editor);
+		const grow = () => {
+			editor.setCssProps({ height: 'auto' });
+			editor.setCssProps({ height: `${editor.scrollHeight}px` });
+		};
+		const finish = (save: boolean) => {
+			actions.endInteraction();
+			const title = editor.value.replace(/\s+/g, ' ').trim();
+			editor.replaceWith(display);
+			if (save && title !== '' && title !== issue.title) {
+				display.setText(title);
+				void actions.patchIssue(issue, { title });
+			}
+		};
+		editor.addEventListener('input', grow);
+		editor.addEventListener('blur', () => finish(true));
+		editor.addEventListener('keydown', (evt) => {
+			if (evt.key === 'Enter') {
+				evt.preventDefault();
+				editor.blur();
+			} else if (evt.key === 'Escape') {
+				evt.preventDefault();
+				editor.value = issue.title;
+				editor.blur();
+			}
+		});
+		actions.beginInteraction();
+		editor.focus();
+		editor.setSelectionRange(editor.value.length, editor.value.length);
+		grow();
 	});
 }
 
