@@ -1,0 +1,11 @@
+node_modules/
+main.js
+*.map
+install.config.json
+dev-vault/.obsidian/plugins/issues/
+dev-vault/.obsidian/workspace.json
+dev-vault/.obsidian/workspace-mobile.json
+data.json
+.DS_Store
+.idea
+.vscode

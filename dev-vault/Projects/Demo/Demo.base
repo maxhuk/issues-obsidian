@@ -1,0 +1,8 @@
+filters:
+  and:
+    - project == "DEMO"
+views:
+  - type: issues-list
+    name: Issues
+    collapsed:
+      - release:DEMO-1.0.0
