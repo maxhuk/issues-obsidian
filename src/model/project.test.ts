@@ -50,7 +50,7 @@ describe('parseProject', () => {
 	});
 
 	it('parses sparse status meanings and validates them', () => {
-		const c = ok({ type: 'project', project: 'BRE', statuses: ['idea', 'done'], statuses_closed: ['done'], status_meanings: ['idea: Worth a look.', ' done :  Shipped. '] });
+		const c = ok({ type: 'project', project: 'BRE', releases: false, statuses: ['idea', 'done'], statuses_closed: ['done'], status_meanings: ['idea: Worth a look.', ' done :  Shipped. '] });
 		expect(c.statusMeanings).toEqual({ idea: 'Worth a look.', done: 'Shipped.' });
 		expect(ok({ type: 'project', project: 'BRE' }).statusMeanings).toEqual({});
 		const bad = (fm: Record<string, unknown>) => {
