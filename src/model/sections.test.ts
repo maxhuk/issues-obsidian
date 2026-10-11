@@ -49,8 +49,8 @@ describe('buildSections', () => {
 	];
 	const sections = buildSections({ issues, releases, config: c, today: TODAY });
 
-	it('emits every configured status from last to first, then unknown statuses alphabetically', () => {
-		expect(sections.map((s) => s.status)).toEqual([...c.statuses].reverse().concat(['blocked', 'wontfix']));
+	it('emits open statuses from last to first, then closed ones in flow order, then unknown statuses', () => {
+		expect(sections.map((s) => s.status)).toEqual(['merged', 'pr', 'doing', 'next', 'backlog', 'inbox', 'released', 'canceled', 'blocked', 'wontfix']);
 		expect(sections.find((s) => s.status === 'blocked')).toMatchObject({ known: false, closed: false, grouped: false, issues: [issues[10]] });
 	});
 

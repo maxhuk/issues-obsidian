@@ -34,7 +34,7 @@ All properties are plain YAML frontmatter, typed as Obsidian property types (tex
 | `type` | text | | `project`. Required; it is what makes the note a project. |
 | `project` | text | | The project key, e.g. `BRE`: uppercase letters, used as the issue key prefix and as the `project` value on every issue and release. Required. |
 | `releases` | checkbox | `true` | Whether the project tracks releases. When `false`, nothing below that is marked *releases only* applies. |
-| `statuses` | list | with releases `[inbox, backlog, next, doing, pr, merged, released, canceled]`; without `[inbox, backlog, next, doing, done, canceled]` | Ordered status vocabulary, from first stage to last. The list shows the sections in reverse, last stage at the top. |
+| `statuses` | list | with releases `[inbox, backlog, next, doing, pr, merged, released, canceled]`; without `[inbox, backlog, next, doing, done, canceled]` | Ordered status vocabulary, from first stage to last. The list shows open statuses in reverse (last stage at the top), then the closed ones. |
 | `statuses_closed` | list | with releases `[released, canceled]`; without `[done, canceled]` | Statuses that end an issue's life. |
 | `status_released` | text | `released` | Releases only. The status that ties an issue to a release. Must be listed in `statuses_closed`. |
 | `status_ship_from` | text | `merged` | Releases only. The status whose issues Ship sweeps into `status_released`. |
@@ -132,7 +132,7 @@ The rendered guide names the project's key, folders and statuses, and covers cre
 
 ### 3.1 Sections
 
-One section per status, in the reverse of the project's `statuses` order so the last stage is at the top and the inbox at the bottom, every one present even when empty. After them, one section per status value found on issues but absent from `statuses`, headed by the raw value, so that no issue is ever hidden by configuration. A section header shows the status, the count of visible issues, a collapse chevron and an add button.
+One section per status, every one present even when empty, in this order: the open statuses in reverse of the project's `statuses` order, so the last active stage is at the top and the inbox at the bottom of the live work; then the closed statuses in `statuses` order; then one section per status value found on issues but absent from `statuses`, headed by the raw value, so that no issue is ever hidden by configuration. With the defaults: merged, pr, doing, next, backlog, inbox, released, canceled. A section header shows the status, the count of visible issues, a collapse chevron and an add button.
 
 Collapsed state (sections and release groups) is stored in the view's config inside the `.base` file, so it is one state across devices and survives reloads. Release groups that start collapsed by default remember being opened the same way.
 

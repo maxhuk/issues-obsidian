@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Closed statuses are listed after all open ones, so released and canceled work sits at the very end.
+
 ## 0.1.2
 
 - Sections are listed from the last stage to the first, so finished and in-progress work sits at the top and the inbox at the bottom.
