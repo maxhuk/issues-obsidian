@@ -79,7 +79,7 @@ File name is the key: `<project>-<number>.md`. Numbers are assigned as the highe
 | `labels` | list | free text | Zero or more labels. |
 | `parent` | text | wikilink to an issue | Optional parent issue, resolved by basename among the project's issues. |
 | `release` | text | wikilink to a release | Releases only. Resolved by basename among the project's releases. |
-| `order` | text | fractional-index key | Position within the section. Owned by the plugin and by the migration script; opaque to everyone else. |
+| `order` | text | fractional-index key | Position within the section. Owned by the plugin; opaque to everyone else. |
 | `created` | date | | Creation date. |
 | `closed` | date | | Date the issue entered a closed status. Absent while open. |
 
