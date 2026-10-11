@@ -17,6 +17,8 @@ export interface ProjectConfig {
 	releases: boolean;
 	statuses: string[];
 	statusesClosed: string[];
+	/** Custom wording for the status table in AGENTS.md, keyed by status. Sparse. */
+	statusMeanings: Record<string, string>;
 	statusReleased: string;
 	statusShipFrom: string;
 	hideClosedAfterDays: number;

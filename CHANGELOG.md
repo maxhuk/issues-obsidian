@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- `status_meanings` on the project note supplies the wording of the status table in `AGENTS.md`, one `status: meaning` entry per line.
+
 ## 0.2.0
 
 - Command **New project**: a dialog for name, key and parent folder that creates the project note and the base and opens the note.

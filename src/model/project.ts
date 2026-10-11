@@ -58,6 +58,15 @@ export function parseProject(note: NoteRecord): ProjectParse {
 	for (const s of statusesClosed) {
 		if (!statuses.includes(s)) return { ok: false, error: `statuses_closed contains "${s}", which is not in statuses` };
 	}
+	const statusMeanings: Record<string, string> = {};
+	for (const entry of list(fm.status_meanings) ?? []) {
+		const colon = entry.indexOf(':');
+		const status = colon === -1 ? '' : entry.slice(0, colon).trim();
+		const meaning = colon === -1 ? '' : entry.slice(colon + 1).trim();
+		if (status === '' || meaning === '') return { ok: false, error: `status_meanings entry "${entry}" is not "status: meaning"` };
+		if (!statuses.includes(status)) return { ok: false, error: `status_meanings mentions "${status}", which is not in statuses` };
+		statusMeanings[status] = meaning;
+	}
 	if (releases) {
 		if (!statuses.includes(statusReleased)) return { ok: false, error: `status_released "${statusReleased}" is not in statuses` };
 		if (!statuses.includes(statusShipFrom)) return { ok: false, error: `status_ship_from "${statusShipFrom}" is not in statuses` };
@@ -75,6 +84,7 @@ export function parseProject(note: NoteRecord): ProjectParse {
 		releases,
 		statuses,
 		statusesClosed,
+		statusMeanings,
 		statusReleased,
 		statusShipFrom,
 		hideClosedAfterDays,

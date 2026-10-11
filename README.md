@@ -226,6 +226,7 @@ issue_template: Templates/Issue.md
 | `releases` | `true` | Track releases. |
 | `statuses` | see above; without releases `[inbox, backlog, next, doing, done, canceled]` | Section vocabulary, first stage to last; the list shows open statuses in reverse, then closed ones. Lowercase words. |
 | `statuses_closed` | `[released, canceled]`; without releases `[done, canceled]` | Statuses that end an issue's life. |
+| `status_meanings` | none | One `status: meaning` entry per line for the status table in `AGENTS.md`. Sparse; the default statuses already have wording. |
 | `status_released` | `released` | The status tied to a release. Must be in `statuses_closed`. |
 | `status_ship_from` | `merged` | What Ship sweeps. |
 | `hide_closed_after_days` | `14` | Days before a closed issue hides. `0` hides all closed issues. The released section is exempt. |
@@ -241,6 +242,9 @@ project: BLOG
 releases: false
 statuses: [idea, writing, published, dropped]
 statuses_closed: [published, dropped]
+status_meanings:
+  - "idea: An angle worth writing about, not started."
+  - "dropped: Will not be written."
 hide_closed_after_days: 30
 ```
 

@@ -11,6 +11,7 @@ export function config(overrides: Partial<ProjectConfig> = {}): ProjectConfig {
 		releases: true,
 		statuses: ['inbox', 'backlog', 'next', 'doing', 'pr', 'merged', 'released', 'canceled'],
 		statusesClosed: ['released', 'canceled'],
+		statusMeanings: {},
 		statusReleased: 'released',
 		statusShipFrom: 'merged',
 		hideClosedAfterDays: 14,

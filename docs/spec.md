@@ -36,6 +36,7 @@ All properties are plain YAML frontmatter, typed as Obsidian property types (tex
 | `releases` | checkbox | `true` | Whether the project tracks releases. When `false`, nothing below that is marked *releases only* applies. |
 | `statuses` | list | with releases `[inbox, backlog, next, doing, pr, merged, released, canceled]`; without `[inbox, backlog, next, doing, done, canceled]` | Ordered status vocabulary, from first stage to last. The list shows open statuses in reverse (last stage at the top), then the closed ones. |
 | `statuses_closed` | list | with releases `[released, canceled]`; without `[done, canceled]` | Statuses that end an issue's life. |
+| `status_meanings` | list | none | Wording for the status table in `AGENTS.md`, one `status: meaning` entry per line, as sparse as you like. An entry overrides the built-in meaning of a default status; a status with neither has an empty meaning. |
 | `status_released` | text | `released` | Releases only. The status that ties an issue to a release. Must be listed in `statuses_closed`. |
 | `status_ship_from` | text | `merged` | Releases only. The status whose issues Ship sweeps into `status_released`. |
 | `hide_closed_after_days` | number | `14` | Issues in a closed status are hidden from their section when `today − closed > hide_closed_after_days`. `0` hides every closed issue. With releases on, the `status_released` section is exempt. |
@@ -45,9 +46,9 @@ All properties are plain YAML frontmatter, typed as Obsidian property types (tex
 
 The project's display name is the note's file basename.
 
-Validation, checked whenever the project note changes: `type` is `project`; `project` is non-empty; `status_released` and `status_ship_from` are members of `statuses` and `status_released` is a member of `statuses_closed` (releases on only); every entry of `statuses_closed` is a member of `statuses`. A failed check replaces the list with a setup message naming the property.
+Validation, checked whenever the project note changes: `type` is `project`; `project` is non-empty; `status_released` and `status_ship_from` are members of `statuses` and `status_released` is a member of `statuses_closed` (releases on only); every entry of `statuses_closed` is a member of `statuses`; every `status_meanings` entry has the `status: meaning` shape and names a member of `statuses`. A failed check replaces the list with a setup message naming the property.
 
-Meaning of the default statuses:
+Meaning of the default statuses, as written into `AGENTS.md` unless `status_meanings` says otherwise:
 
 | Status | Meaning |
 |---|---|

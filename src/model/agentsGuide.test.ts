@@ -30,6 +30,16 @@ describe('renderAgentsGuide', () => {
 		expect(off).toContain('status: todo');
 	});
 
+	it('uses status_meanings over the built-in wording, leaving others as they are', () => {
+		const text = renderAgentsGuide(
+			config({ releases: false, statuses: ['idea', 'next', 'dropped'], statusesClosed: ['dropped'], statusMeanings: { dropped: 'Will not be written.', next: 'Up next.' } }),
+			'0.1.0',
+		);
+		expect(text).toContain('| `dropped` | closed | Will not be written. |');
+		expect(text).toContain('| `next` | open | Up next. |');
+		expect(text).toContain('| `idea` | open |  |');
+	});
+
 	it('never tells an agent to write order', () => {
 		expect(withReleases).toContain('**Do not write `order`.**');
 		expect(withReleases).not.toMatch(/\norder: /);

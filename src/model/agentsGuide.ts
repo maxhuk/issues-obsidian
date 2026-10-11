@@ -19,7 +19,7 @@ function code(text: string): string {
 function statusTable(config: ProjectConfig): string {
 	const rows = config.statuses.map((status) => {
 		const closed = config.statusesClosed.includes(status) ? 'closed' : 'open';
-		return `| ${code(status)} | ${closed} | ${MEANINGS[status] ?? ''} |`;
+		return `| ${code(status)} | ${closed} | ${config.statusMeanings[status] ?? MEANINGS[status] ?? ''} |`;
 	});
 	return ['| Status | Kind | Meaning |', '|---|---|---|', ...rows].join('\n');
 }

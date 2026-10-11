@@ -49,6 +49,18 @@ describe('parseProject', () => {
 		expect(c.issueTemplate).toBe('Templates/Issue.md');
 	});
 
+	it('parses sparse status meanings and validates them', () => {
+		const c = ok({ type: 'project', project: 'BRE', statuses: ['idea', 'done'], statuses_closed: ['done'], status_meanings: ['idea: Worth a look.', ' done :  Shipped. '] });
+		expect(c.statusMeanings).toEqual({ idea: 'Worth a look.', done: 'Shipped.' });
+		expect(ok({ type: 'project', project: 'BRE' }).statusMeanings).toEqual({});
+		const bad = (fm: Record<string, unknown>) => {
+			const r = parseProject(record(PATH, { type: 'project', project: 'BRE', ...fm }));
+			return r.ok ? null : r.error;
+		};
+		expect(bad({ status_meanings: ['no colon here'] })).toMatch(/not "status: meaning"/);
+		expect(bad({ status_meanings: ['ghost: Boo.'] })).toMatch(/not in statuses/);
+	});
+
 	it('rejects a note that is not a project or has no key', () => {
 		expect(parseProject(record(PATH, { type: 'release', project: 'BRE' })).ok).toBe(false);
 		expect(parseProject(record(PATH, { type: 'project' })).ok).toBe(false);
