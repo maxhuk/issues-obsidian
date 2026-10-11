@@ -16,7 +16,7 @@ export function confirm(app: App, title: string, message: string, confirmLabel: 
 			.addButton((button) =>
 				button
 					.setButtonText(confirmLabel)
-					.setWarning()
+					.setDestructive().setCta()
 					.onClick(() => {
 						settled = true;
 						resolve(true);
