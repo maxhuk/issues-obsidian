@@ -69,6 +69,7 @@ issues-obsidian/
       drag/
         dragController.ts pointer-event drag for mouse and touch: hold-to-lift, ghost, drop indicator, auto-scroll
   dev-vault/              a small vault with one fixture project for manual testing
+  skills/claude-code/     a user-level Claude Code skill that discovers projects and follows their AGENTS.md
   docs/
     spec.md
     architecture.md

@@ -261,6 +261,17 @@ The essentials:
 - Entering a closed status sets `closed`; leaving one removes it. Entering the released status also sets `release`.
 - Quote wikilinks: `parent: "[[BRE-100]]"`.
 
+## Using it from Claude Code
+
+`skills/claude-code/SKILL.md` is a user-level skill for Claude Code. With it installed, a request such as "add the login crash as a bug in BRE" or "what's open on Breathe?" works from any session, in any repository: the skill discovers the projects by scanning the configured folders for project notes, reads that project's `AGENTS.md`, and edits the files accordingly.
+
+```bash
+mkdir -p ~/.claude/skills/issues
+cp skills/claude-code/SKILL.md ~/.claude/skills/issues/SKILL.md
+```
+
+Then edit the `roots` block at the top of the copied file to list the folders that contain your project folders, for example `/Users/you/Obsidian/Vault/Projects`. That is the only configuration; new projects are found automatically.
+
 ## Development
 
 ```bash
