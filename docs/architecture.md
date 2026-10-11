@@ -29,8 +29,8 @@ issues-obsidian/
   eslint.config.mts
   styles.css              all plugin CSS; class prefix `issues-`
   src/
-    main.ts               Plugin subclass: registerBasesView only
-    types.ts              shared types: NoteRecord, ProjectConfig, Issue, Release, Section, ReleaseGroup, Plan (Patch | CreateNote)
+    main.ts               Plugin subclass: registerBasesView and the New project command
+    types.ts              shared types: NoteRecord, ProjectConfig, Issue, Release, Section, ReleaseGroup, Plan (Patch | CreateNote | CreateFile)
     model/                pure TypeScript, no `obsidian` import, unit-tested
       ordering.ts         fractional keys, the row sort, placeAt (keys the unkeyed tail when a neighbour is unkeyed)
       project.ts          parse and validate the project note into ProjectConfig; defaults depend on `releases`
@@ -40,17 +40,19 @@ issues-obsidian/
       status.ts           status change rules → Patch; release change → Patch
       moves.ts            drop, send to top/bottom, move to status, order for a new row → Plan[]
       create.ts           issue and release creation → CreateNote; next number from existing keys
+      createProject.ts    New project: validation, key suggestion, project note + base → plans
       ship.ts             ship-release plan → Plan[], release note first
       changelog.ts        release group → clipboard text
       agentsGuide.ts      renders a project's AGENTS.md from its ProjectConfig and the plugin version
       fixtures.ts         builders shared by the tests
     vault/                adapters that touch the Obsidian API
       entries.ts          BasesEntry → NoteRecord, frontmatter read from the metadata cache
-      writer.ts           apply Plan[]: processFrontMatter for patches; vault.create + processFrontMatter for notes; folder creation
+      writer.ts           apply Plan[]: processFrontMatter for patches; vault.create + processFrontMatter for notes; vault.create for files; folder creation
       template.ts         read a note body without its frontmatter (issue_template, panel body)
       agentsGuide.ts      write <project folder>/AGENTS.md when the rendered guide or version differs
     view/
       IssuesView.ts       BasesView subclass; UI state, model rebuild, rendering, deferral; implements Actions
+      newProjectModal.ts  the New project dialog; applies the project plans and opens the note
       commands.ts         every write: picks releases, builds plans through model/, applies them, optimistic refresh
       overrides.ts        optimistic values shown until Bases reports the written data
       types.ts            ViewModel, Actions, DropTarget, AddInputState
@@ -79,7 +81,7 @@ A file over roughly 250 lines is a signal to split it along the responsibilities
 
 The plugin is a Bases view. Obsidian owns the query; the plugin owns rendering and writes.
 
-- `main.ts` calls `this.registerBasesView('issues-list', { name, icon, factory })` and hands the view the manifest version for AGENTS.md. The id `issues-list` is stable API and never changes.
+- `main.ts` calls `this.registerBasesView('issues-list', { name, icon, factory })` and hands the view the manifest version for AGENTS.md, and registers the command `new-project`. The view id and the command id are stable API and never change.
 - `IssuesView extends BasesView`. `onDataUpdated()` is the only entry point for data. Because the base's filter selects every note carrying the project key, `this.data.data` contains the project note, the releases and the issues together; `partition.ts` separates them by `type`. A change to any of the three re-delivers the data, so no separate metadata listener exists.
 - `this.data` and its entries are replaced on every update. Nothing holds a reference across updates; note records carry the file path and are rebuilt each time.
 - The view ignores the base's groupBy and sort; it reads the ungrouped `data.data`.
@@ -105,7 +107,7 @@ user action ──▶ model/status | ordering | create | ship ──▶ Plan[] �
 
 Rules this flow enforces:
 
-- **Model functions are pure and return plans.** `Plan` is `Patch` (`{ path, set, clear }`) or `CreateNote` (`{ path, frontmatter, body }`). A status change, a drop, a ship action and a creation all produce `Plan[]`; `writer.ts` applies them in order. Tests cover the planning, not the writing.
+- **Model functions are pure and return plans.** `Plan` is `Patch` (`{ path, set, clear }`), `CreateNote` (`{ path, frontmatter, body }`) or `CreateFile` (`{ path, content }`, for the `.base`). A status change, a drop, a ship action and a creation all produce `Plan[]`; `writer.ts` applies them in order. Tests cover the planning, not the writing.
 - **One write per changed note**, with one exception: a drop or Send to bottom next to unkeyed rows first keys every unkeyed issue of that section (spec 4.1). The plan lists those patches before the moved issue's patch.
 - **Ship writes the release note first**, then the issues, so an interrupted ship is completed by running it again.
 - **Optimistic ordering.** After a drop the view keeps an in-memory `order` override for the moved note until the next `onDataUpdated` reports the written value, so the row does not jump back while the file is saved.

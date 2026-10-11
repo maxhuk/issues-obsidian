@@ -72,7 +72,14 @@ export interface CreateNote {
 	body: string;
 }
 
-export type Plan = Patch | CreateNote;
+/** A non-Markdown file written verbatim, such as a `.base`. */
+export interface CreateFile {
+	kind: 'file';
+	path: string;
+	content: string;
+}
+
+export type Plan = Patch | CreateNote | CreateFile;
 
 export type ReleaseGroupKind = 'planned' | 'released' | 'dangling' | 'none';
 

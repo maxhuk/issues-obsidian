@@ -46,9 +46,11 @@ Obsidian Sync carries the plugin folder to your other devices like any other vau
 
 ## Set up a project
 
-A project is a folder with a project note and a base. The example below uses a project called Breathe with the key `BRE`.
+A project is a folder with a project note and a base. Run the command **Issues: New project** from the command palette, give it a name and a key, and the plugin creates both and opens the note. The key is suggested from the name; the parent folder defaults to `Projects`.
 
-**1. Create the folder and the project note.**
+The rest of this section shows what the command creates, using a project called Breathe with the key `BRE`, so you can also set it up by hand or adjust it afterwards.
+
+**1. The folder and the project note.**
 
 `Projects/Breathe/Breathe.md`:
 
@@ -64,7 +66,7 @@ project: BRE
 
 `type: project` is what makes the note a project. `project` is the key: it prefixes every issue (`BRE-1`, `BRE-2`, …) and is the value every issue and release carries in its own `project` property.
 
-**2. Create the base.**
+**2. The base.**
 
 `Projects/Breathe/Breathe.base`:
 
@@ -79,11 +81,11 @@ views:
 
 The filter selects everything carrying the project key: the project note, the issues and the releases. The view type `issues-list` is this plugin.
 
-**3. Open the project note.**
+**3. The list.**
 
-The embedded base renders the list with every section empty. Add your first issue with the add row under any section. The plugin creates `Projects/Breathe/Issues/BRE-1.md`.
+Opening the project note renders the embedded base with every section empty. Add your first issue with the add row under any section. The plugin creates `Projects/Breathe/Issues/BRE-1.md`.
 
-That is the whole setup. The folder now looks like this:
+The folder then looks like this:
 
 ```
 Projects/Breathe/

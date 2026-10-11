@@ -1,5 +1,5 @@
 import type { App } from 'obsidian';
-import type { CreateNote, Patch, Plan } from '../types';
+import type { CreateFile, CreateNote, Patch, Plan } from '../types';
 
 function parentFolder(path: string): string {
 	const slash = path.lastIndexOf('/');
@@ -22,7 +22,8 @@ export class PlanWriter {
 	async apply(plans: Plan[]): Promise<void> {
 		for (const plan of plans) {
 			if (plan.kind === 'patch') await this.patch(plan);
-			else await this.create(plan);
+			else if (plan.kind === 'create') await this.create(plan);
+			else await this.file(plan);
 		}
 	}
 
@@ -33,6 +34,12 @@ export class PlanWriter {
 			for (const [key, value] of Object.entries(plan.set)) frontmatter[key] = value;
 			for (const key of plan.clear) delete frontmatter[key];
 		});
+	}
+
+	private async file(plan: CreateFile): Promise<void> {
+		if (this.app.vault.getAbstractFileByPath(plan.path)) throw new Error(`${plan.path} already exists`);
+		await ensureFolder(this.app, parentFolder(plan.path));
+		await this.app.vault.create(plan.path, plan.content);
 	}
 
 	private async create(plan: CreateNote): Promise<void> {

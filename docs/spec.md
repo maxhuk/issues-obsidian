@@ -173,6 +173,12 @@ Typing a title and pressing Enter creates the issue with that section's status a
 
 Creation writes exactly these properties: `title`, `project`, `type: task`, `status`, `priority: medium`, `labels: []`, `created` (today), `order`. When the section's status is closed, the rules of 4.3 apply before the file is written (`closed` today; for `status_released`, the release picker first). The body is the body of `issue_template` when set, otherwise empty. The file is `<issues_folder>/<project>-<n>.md` with `n` the highest existing number plus one; creation fails with a notice if that path already exists. The issues folder is created when missing.
 
+### 3.5 Creating a project
+
+The command **Issues: New project** opens a dialog with three fields: the project name, the key, and the parent folder (default `Projects`). The key is suggested from the name as its first three letters, uppercased, until the field is edited by hand; it must be uppercase letters and digits starting with a letter. The name is used as the folder and file name and cannot contain path characters.
+
+Confirming creates `<parent>/<name>/<name>.md` with `type: project` and `project: <key>` and a body that embeds the base, and `<parent>/<name>/<name>.base` with the filter `project == "<key>"` and one `issues-list` view. The dialog refuses to overwrite an existing folder. The project note then opens, which renders the empty list and writes `AGENTS.md` (2.5). The issues and releases folders are created on first use, as in 3.4 and 4.3.
+
 ## 4. Changing issues
 
 ### 4.1 Drag and drop
@@ -238,7 +244,7 @@ Tasks first, then bugs under a `Fixes` line, each in the section's row order (3.
 - Sync is the user's concern. Obsidian Sync carries notes, the base and the plugin's built files between devices; the plugin stores nothing outside the vault.
 - Obsidian's theme variables drive all colours and spacing. The list respects light and dark themes without plugin settings.
 - Data updates that arrive during a drag or while the title field is focused are applied after that interaction ends, so a lifted row and an edit in progress are never discarded. An open add input survives a redraw with its text and focus intact, so rows created with Shift+Enter appear while typing continues.
-- There are no plugin settings, no commands, no network calls and no telemetry.
+- There are no plugin settings, no network calls and no telemetry. The only command is **New project** (3.5).
 
 ## 6. Out of scope
 

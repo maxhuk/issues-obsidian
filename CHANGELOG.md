@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+- Command **New project**: a dialog for name, key and parent folder that creates the project note and the base and opens the note.
+
 ## 0.1.3
 
 - Closed statuses are listed after all open ones, so released and canceled work sits at the very end.
