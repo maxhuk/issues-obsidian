@@ -41,11 +41,13 @@ issues-obsidian/
       create.ts           issue and release creation → CreateNote; next number from existing keys
       ship.ts             ship-release plan → Plan[], release note first
       changelog.ts        release group → clipboard text
+      agentsGuide.ts      renders a project's AGENTS.md from its ProjectConfig and the plugin version
       fixtures.ts         builders shared by the tests
     vault/                adapters that touch the Obsidian API
       entries.ts          BasesEntry → NoteRecord, frontmatter read from the metadata cache
       writer.ts           apply Plan[]: processFrontMatter for patches; vault.create + processFrontMatter for notes; folder creation
       template.ts         read a note body without its frontmatter (issue_template, panel body)
+      agentsGuide.ts      write <project folder>/AGENTS.md when the rendered guide or version differs
     view/
       IssuesView.ts       BasesView subclass; UI state, model rebuild, rendering, deferral; implements Actions
       commands.ts         every write: picks releases, builds plans through model/, applies them, optimistic refresh
@@ -67,7 +69,6 @@ issues-obsidian/
   docs/
     spec.md
     architecture.md
-    agent-guide.md
 ```
 
 A file over roughly 250 lines is a signal to split it along the responsibilities above.
@@ -76,7 +77,7 @@ A file over roughly 250 lines is a signal to split it along the responsibilities
 
 The plugin is a Bases view. Obsidian owns the query; the plugin owns rendering and writes.
 
-- `main.ts` calls `this.registerBasesView('issues-list', { name, icon, factory, options })`. The id `issues-list` is stable API and never changes.
+- `main.ts` calls `this.registerBasesView('issues-list', { name, icon, factory })` and hands the view the manifest version for AGENTS.md. The id `issues-list` is stable API and never changes.
 - `IssuesView extends BasesView`. `onDataUpdated()` is the only entry point for data. Because the base's filter selects every note carrying the project key, `this.data.data` contains the project note, the releases and the issues together; `partition.ts` separates them by `type`. A change to any of the three re-delivers the data, so no separate metadata listener exists.
 - `this.data` and its entries are replaced on every update. Nothing holds a reference across updates; note records carry the file path and are rebuilt each time.
 - The view ignores the base's groupBy and sort; it reads the ungrouped `data.data`.
@@ -143,7 +144,7 @@ Rules this flow enforces:
 - `README.md`: what the plugin is, how to set up a project in a vault, how to build and install.
 - `docs/spec.md`: behaviour. Any change in behaviour updates it in the same commit.
 - `docs/architecture.md`: this file. Any change to layout, data flow or tooling updates it in the same commit.
-- `docs/agent-guide.md`: the contract for writing issues by editing files. Any change to the data model or to status rules updates it in the same commit.
+- `src/model/agentsGuide.ts`: the contract for writing issues by editing files, rendered into every project's `AGENTS.md`. Any change to the data model or to status rules updates it in the same commit.
 - `CHANGELOG.md`: the only place where history lives, one entry per version.
 - Docs describe the present. No comparisons with earlier states: no "previously", "no longer", "used to", "legacy", "migrated from", "replaces". A removed feature is deleted from the docs, not marked as removed.
 - Code comments explain non-obvious reasons only. Identifiers carry the what.

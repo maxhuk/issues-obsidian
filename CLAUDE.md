@@ -4,7 +4,7 @@ An Obsidian community plugin: a Linear-style sectioned issue list as a custom Ba
 
 - `docs/spec.md` — behaviour. The spec is the source of truth; code follows it.
 - `docs/architecture.md` — module layout, the Bases contract, data flow, testing, docs rules.
-- `docs/agent-guide.md` — the file-editing contract for anyone writing issues without the plugin. A change to the data model or the status rules updates it in the same commit.
+- `src/model/agentsGuide.ts` — the file-editing contract the plugin writes into every project's `AGENTS.md`. A change to the data model or the status rules updates it in the same commit.
 
 ## Working rules
 

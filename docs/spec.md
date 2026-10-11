@@ -11,6 +11,7 @@ Projects/
   Breathe/
     Breathe.md            project note (type: project)
     Breathe.base          the base; one or more views of type issues-list
+    AGENTS.md             the file-editing contract for this project, written by the plugin
     Issues/
       BRE-123.md          one note per issue, file name is the key
     Releases/
@@ -118,6 +119,14 @@ A view of this type expects exactly one note with `type: project` in its data. N
 Further views on the same base may add Bases filters, for example `labels.contains("ops")`, to give a narrower list with the same behaviour. Filters that exclude the project note break the view; filters that exclude releases only remove those releases from grouping and pickers.
 
 The project note embeds the base with `![[Breathe.base]]` so opening the project note opens the list.
+
+### 2.5 AGENTS.md
+
+Issues are also created and moved by people and agents editing files directly, without the plugin. The rules they must follow live in `AGENTS.md` in the project folder, where anyone who opens the folder finds them.
+
+The plugin owns that file. Whenever a view renders a project, it compares the file on disk with the guide rendered from the project's current configuration and the plugin's version, and rewrites it when they differ. The file carries `type: agents` and `issues_version` in its frontmatter; it does not match the base filter, so it is never listed as an issue. Hand edits are overwritten on the next render, so project-specific guidance belongs in the project note's body.
+
+The rendered guide names the project's key, folders and statuses, and covers creating an issue, changing status, editing, the release lifecycle when releases are on, and the mistakes that break the list. The plugin tolerates the common ones: a missing `order` sorts last and an unknown status gets its own section, so such edits never hide work.
 
 ## 3. The list
 

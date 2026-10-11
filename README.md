@@ -4,7 +4,6 @@ A sectioned issue list for Obsidian, built as a custom Bases view. Notes are iss
 
 - What it does and how it behaves: [docs/spec.md](docs/spec.md)
 - How the code is organised: [docs/architecture.md](docs/architecture.md)
-- Creating and moving issues by editing files, for people and agents: [docs/agent-guide.md](docs/agent-guide.md)
 
 ## Set up a project in a vault
 
@@ -25,6 +24,8 @@ A sectioned issue list for Obsidian, built as a custom Bases view. Notes are iss
        name: Issues
    ```
 4. Embed it in the project note with `![[Breathe.base]]`.
+
+The first time the list renders, the plugin writes `AGENTS.md` into the project folder: the rules for creating and moving issues by editing files, specialised to that project. Agents and people working without the plugin read that file.
 
 ## Build and install
 
