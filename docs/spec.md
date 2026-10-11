@@ -138,9 +138,11 @@ Rules that change what a section shows:
 A row is one line on desktop and may wrap to two on narrow screens. From left to right:
 
 1. Drag handle, visible on hover on desktop, always present but subtle on mobile.
-2. Key, in a muted monospace style.
-3. Title.
-4. Chips: `type` (always), `priority` (only when not `medium`), one chip per label, and a parent chip showing the parent's key when `parent` is set. The parent chip opens the parent in the detail panel.
+2. Type icon: a blue checked square for a task, a red bug for a bug. Any other `type` value draws the task icon; the tooltip shows the raw value.
+3. Key, in a muted monospace style.
+4. Title.
+5. Priority icon, only when not `medium`: double chevron up in orange for `high`, single chevron down in faint ink for `low`.
+6. Chips: one per label, and a parent chip showing the parent's key when `parent` is set. The parent chip opens the parent in the detail panel.
 
 Rows within a section are sorted by `order` ascending; issues without `order` sort after every keyed row, by `created` ascending. Clicking a row opens it in the detail panel. The whole row is the hit target.
 

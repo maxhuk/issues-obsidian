@@ -1,4 +1,4 @@
-import { setIcon } from 'obsidian';
+import { setIcon, setTooltip } from 'obsidian';
 import type { Issue } from '../../types';
 import type { Actions } from '../types';
 
@@ -10,13 +10,18 @@ export function renderRow(parent: HTMLElement, issue: Issue, actions: Actions): 
 	const handle = row.createSpan({ cls: 'issues-row-handle' });
 	setIcon(handle, 'lucide-grip-vertical');
 
+	const type = row.createSpan({ cls: `issues-row-type is-${issue.type === 'bug' ? 'bug' : 'task'}` });
+	setIcon(type, issue.type === 'bug' ? 'lucide-bug' : 'lucide-square-check');
+	setTooltip(type, issue.type);
+
 	row.createSpan({ cls: 'issues-row-key', text: issue.key });
 	row.createSpan({ cls: 'issues-row-title', text: issue.title });
 
 	const chips = row.createSpan({ cls: 'issues-row-chips' });
-	chips.createSpan({ cls: `issues-chip issues-chip-type is-${issue.type}`, text: issue.type });
 	if (issue.priority !== 'medium') {
-		chips.createSpan({ cls: `issues-chip issues-chip-priority is-${issue.priority}`, text: issue.priority });
+		const priority = chips.createSpan({ cls: `issues-row-priority is-${issue.priority}` });
+		setIcon(priority, issue.priority === 'high' ? 'lucide-chevrons-up' : 'lucide-chevron-down');
+		setTooltip(priority, `${issue.priority} priority`);
 	}
 	for (const label of issue.labels) chips.createSpan({ cls: 'issues-chip issues-chip-label', text: label });
 	if (issue.parent !== null) {

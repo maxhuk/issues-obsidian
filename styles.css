@@ -271,6 +271,34 @@
 	opacity: 0.5;
 }
 
+.issues-row-type,
+.issues-row-priority {
+	display: flex;
+	flex: none;
+}
+
+.issues-row-type svg,
+.issues-row-priority svg {
+	width: var(--icon-s);
+	height: var(--icon-s);
+}
+
+.issues-row-type.is-task {
+	color: var(--color-blue);
+}
+
+.issues-row-type.is-bug {
+	color: var(--color-red);
+}
+
+.issues-row-priority.is-high {
+	color: var(--color-orange);
+}
+
+.issues-row-priority.is-low {
+	color: var(--text-faint);
+}
+
 .issues-row-key {
 	font-family: var(--font-monospace);
 	font-size: var(--font-ui-smaller);
@@ -316,20 +344,6 @@
 	border: 1px solid var(--background-modifier-border);
 	color: var(--text-muted);
 	white-space: nowrap;
-}
-
-.issues-chip-type.is-bug {
-	color: var(--color-red);
-	border-color: color-mix(in srgb, var(--color-red) 40%, transparent);
-}
-
-.issues-chip-priority.is-high {
-	color: var(--color-orange);
-	border-color: color-mix(in srgb, var(--color-orange) 40%, transparent);
-}
-
-.issues-chip-priority.is-low {
-	color: var(--text-faint);
 }
 
 .issues-chip-parent {
