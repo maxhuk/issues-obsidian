@@ -442,8 +442,20 @@
 	gap: var(--size-4-2);
 }
 
-.issues-panel-top .issues-row-key {
+.issues-panel-key {
 	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-1);
+}
+
+.issues-copy-key {
+	opacity: 0;
+}
+
+.issues-panel-key:hover .issues-copy-key,
+.is-phone .issues-copy-key {
+	opacity: 1;
 }
 
 .issues-panel-title {

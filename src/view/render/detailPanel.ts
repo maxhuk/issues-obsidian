@@ -1,4 +1,4 @@
-import { MarkdownRenderer, moment, setIcon, setTooltip, type App, type Component } from 'obsidian';
+import { MarkdownRenderer, Notice, moment, setIcon, setTooltip, type App, type Component } from 'obsidian';
 import type { Issue } from '../../types';
 import type { Actions, ViewModel } from '../types';
 import { readBody } from '../../vault/template';
@@ -14,7 +14,14 @@ export function renderDetailPanel(parent: HTMLElement, issue: Issue, model: View
 	const panel = parent.createDiv({ cls: 'issues-panel' });
 
 	const top = panel.createDiv({ cls: 'issues-panel-top' });
-	top.createSpan({ cls: 'issues-row-key', text: issue.key });
+	const keyWrap = top.createSpan({ cls: 'issues-panel-key' });
+	keyWrap.createSpan({ cls: 'issues-row-key', text: issue.key });
+	const copy = keyWrap.createEl('button', { cls: 'issues-icon-button issues-copy-key' });
+	setIcon(copy, 'lucide-copy');
+	setTooltip(copy, 'Copy key');
+	copy.addEventListener('click', () => {
+		void navigator.clipboard.writeText(issue.key).then(() => new Notice(`${issue.key} copied`));
+	});
 	const open = top.createEl('button', { cls: 'issues-icon-button' });
 	setIcon(open, 'lucide-file-text');
 	setTooltip(open, 'Open note');
