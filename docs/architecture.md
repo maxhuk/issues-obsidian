@@ -20,6 +20,7 @@ No UI framework. Rendering uses Obsidian's DOM helpers (`createDiv`, `createEl`,
 
 ```
 issues-obsidian/
+  CHANGELOG.md            one entry per version; the only place history lives
   manifest.json           plugin id `issues`, name "Issues"
   versions.json           plugin version → minAppVersion
   package.json
