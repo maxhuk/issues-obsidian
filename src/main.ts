@@ -6,7 +6,7 @@ export default class IssuesPlugin extends Plugin {
 		this.registerBasesView(VIEW_TYPE, {
 			name: 'Issues',
 			icon: 'lucide-list-checks',
-			factory: (controller, containerEl) => new IssuesView(controller, containerEl),
+			factory: (controller, containerEl) => new IssuesView(controller, containerEl, this.manifest.version),
 		});
 	}
 }

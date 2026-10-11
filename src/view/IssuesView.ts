@@ -1,9 +1,10 @@
 import { BasesView, Platform, type QueryController } from 'obsidian';
-import type { Issue, ReleaseGroup } from '../types';
+import type { Issue, ProjectConfig, ReleaseGroup } from '../types';
 import { filterSections } from '../model/filter';
 import { partition } from '../model/partition';
 import { parseProject } from '../model/project';
 import { buildSections } from '../model/sections';
+import { syncAgentsGuide } from '../vault/agentsGuide';
 import { toRecords } from '../vault/entries';
 import { Commands } from './commands';
 import { DragController } from './drag/dragController';
@@ -40,8 +41,13 @@ export class IssuesView extends BasesView implements Actions {
 	private readonly overrides = new OverrideStore();
 	private interactions = 0;
 	private dirty = false;
+	private guideSyncedFor = '';
 
-	constructor(controller: QueryController, containerEl: HTMLElement) {
+	constructor(
+		controller: QueryController,
+		containerEl: HTMLElement,
+		private readonly pluginVersion: string,
+	) {
 		super(controller);
 		this.containerEl = containerEl;
 	}
@@ -150,11 +156,23 @@ export class IssuesView extends BasesView implements Actions {
 			return;
 		}
 		const config = parsed.config;
+		this.keepAgentsGuideCurrent(config);
 		const merged = issues.map((issue) => this.overrides.resolve(issue));
 		const labels = [...new Set(merged.flatMap((i) => i.labels))].sort();
 		const sections = buildSections({ issues: merged, releases, config, today: todayIso(), revealed: this.revealed });
 		this.viewModel = { config, issues: merged, releases, sections, labels };
 		if (this.selectedPath !== null && !merged.some((i) => i.path === this.selectedPath)) this.selectedPath = null;
+	}
+
+	/** Spec 2.5: AGENTS.md follows the configuration and the plugin version; checked once per distinct config. */
+	private keepAgentsGuideCurrent(config: ProjectConfig): void {
+		const signature = JSON.stringify(config);
+		if (signature === this.guideSyncedFor) return;
+		this.guideSyncedFor = signature;
+		syncAgentsGuide(this.app, config, this.pluginVersion).catch((error: unknown) => {
+			this.guideSyncedFor = '';
+			console.error('Issues: could not write AGENTS.md', error);
+		});
 	}
 
 	private findIssue(path: string): Issue | undefined {
