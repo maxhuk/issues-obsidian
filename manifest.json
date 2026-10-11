@@ -1,7 +1,7 @@
 {
 	"id": "issues",
 	"name": "Issues",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"minAppVersion": "1.14.0",
 	"description": "A sectioned issue list for Bases: notes are issues, frontmatter is the data, a project note is the configuration.",
 	"author": "Max Huk",
