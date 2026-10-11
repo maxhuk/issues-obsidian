@@ -141,7 +141,7 @@ A row is one line on desktop and may wrap to two on narrow screens. From left to
 2. Type icon: a blue checked square for a task, a red bug for a bug. Any other `type` value draws the task icon; the tooltip shows the raw value.
 3. Key, in a muted monospace style.
 4. Title.
-5. Priority icon, only when not `medium`: a chevron up in red for `high`, a chevron down in blue for `low`.
+5. Priority icon, only when not `medium`: a double chevron up in red for `high`, a double chevron down in blue for `low`.
 6. Chips: one per label, and a parent chip showing the parent's key when `parent` is set. The parent chip opens the parent in the detail panel.
 
 Rows within a section are sorted by `order` ascending; issues without `order` sort after every keyed row, by `created` ascending. Clicking a row opens it in the detail panel. The whole row is the hit target.
