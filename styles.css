@@ -292,11 +292,11 @@
 }
 
 .issues-row-priority.is-high {
-	color: var(--color-orange);
+	color: var(--color-red);
 }
 
 .issues-row-priority.is-low {
-	color: var(--text-faint);
+	color: var(--color-blue);
 }
 
 .issues-row-key {

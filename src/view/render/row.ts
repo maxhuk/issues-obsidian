@@ -20,7 +20,7 @@ export function renderRow(parent: HTMLElement, issue: Issue, actions: Actions): 
 	const chips = row.createSpan({ cls: 'issues-row-chips' });
 	if (issue.priority !== 'medium') {
 		const priority = chips.createSpan({ cls: `issues-row-priority is-${issue.priority}` });
-		setIcon(priority, issue.priority === 'high' ? 'lucide-chevrons-up' : 'lucide-chevron-down');
+		setIcon(priority, issue.priority === 'high' ? 'lucide-chevron-up' : 'lucide-chevron-down');
 		setTooltip(priority, `${issue.priority} priority`);
 	}
 	for (const label of issue.labels) chips.createSpan({ cls: 'issues-chip issues-chip-label', text: label });
