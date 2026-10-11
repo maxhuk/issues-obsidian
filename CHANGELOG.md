@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+- The detail panel's title wraps and is edited in a growing text area.
+- The panel's overlap padding is recomputed whenever the pane resizes, including after switching between editing and reading view.
+
 ## 0.1.0
 
 First version.
