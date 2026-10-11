@@ -6,3 +6,5 @@ views:
     name: Issues
     collapsed:
       - release:DEMO-1.0.0
+      - status:canceled
+      - status:released

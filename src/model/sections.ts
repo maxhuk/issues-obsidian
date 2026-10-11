@@ -103,7 +103,7 @@ export function buildReleaseGroups(issues: Issue[], releases: Release[], key: st
 	return [...planned, ...released, ...dangling, ...noneGroup];
 }
 
-/** Spec 3.1. */
+/** Spec 3.1: configured statuses from last to first, then unknown statuses. */
 export function buildSections(input: SectionsInput): Section[] {
 	const { issues, releases, config, today } = input;
 	const revealed = input.revealed ?? new Set<string>();
@@ -115,7 +115,8 @@ export function buildSections(input: SectionsInput): Section[] {
 	}
 
 	const unknown = [...byStatus.keys()].filter((s) => !config.statuses.includes(s)).sort();
-	const statuses = [...config.statuses.map((s) => ({ status: s, known: true })), ...unknown.map((s) => ({ status: s, known: false }))];
+	const known = [...config.statuses].reverse().map((s) => ({ status: s, known: true }));
+	const statuses = [...known, ...unknown.map((s) => ({ status: s, known: false }))];
 
 	return statuses.map(({ status, known }) => {
 		const all = sortIssues(byStatus.get(status) ?? []);

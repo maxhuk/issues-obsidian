@@ -49,8 +49,8 @@ describe('buildSections', () => {
 	];
 	const sections = buildSections({ issues, releases, config: c, today: TODAY });
 
-	it('emits every configured status in order, then unknown statuses alphabetically', () => {
-		expect(sections.map((s) => s.status)).toEqual([...c.statuses, 'blocked', 'wontfix']);
+	it('emits every configured status from last to first, then unknown statuses alphabetically', () => {
+		expect(sections.map((s) => s.status)).toEqual([...c.statuses].reverse().concat(['blocked', 'wontfix']));
 		expect(sections.find((s) => s.status === 'blocked')).toMatchObject({ known: false, closed: false, grouped: false, issues: [issues[10]] });
 	});
 

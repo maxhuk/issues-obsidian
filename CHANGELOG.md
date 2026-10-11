@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Sections are listed from the last stage to the first, so finished and in-progress work sits at the top and the inbox at the bottom.
+
 ## 0.1.1
 
 - The detail panel's title wraps and is edited in a growing text area.

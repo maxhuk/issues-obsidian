@@ -23,7 +23,7 @@ Runs on desktop and mobile. Requires Obsidian 1.14 or later with the Bases core 
 
 ## What you get
 
-- **One list per project.** Sections follow the project's statuses, in the order you configure. Each row shows a type icon, the key, the title, a priority icon and label chips.
+- **One list per project.** Sections follow the project's statuses, last stage at the top and inbox at the bottom. Each row shows a type icon, the key, the title, a priority icon and label chips.
 - **Manual ordering.** Drag a row within a section to rank it, or into another section to change its status. The position is stored on the note, so it survives reloads and syncs with the vault.
 - **Row menu.** Send to top, Send to bottom, Move to any status. Right-click on desktop, hold and release on mobile.
 - **Detail panel.** Click a row: title, status, type, priority, labels, parent and release are editable in place; the note body renders below. Open the note itself with one click.
@@ -149,7 +149,7 @@ The body is yours: description, acceptance criteria, pasted screenshots, progres
 
 ## Working with the list
 
-**Sections.** One per status, in configured order, each with a count, a collapse chevron and an add button. Collapsed state is saved in the base, so it is the same on every device. Statuses found on issues but missing from the configuration get their own section at the end, so nothing is ever hidden by a typo.
+**Sections.** One per status, from the last stage down to the first, each with a count, a collapse chevron and an add button. Collapsed state is saved in the base, so it is the same on every device. Statuses found on issues but missing from the configuration get their own section at the end, so nothing is ever hidden by a typo.
 
 **Reordering.** On desktop, drag a row. On a phone, hold a row for a moment to lift it, then drag. Dropping in another section changes the status. The drop writes a new `order` to the moved note and nothing else, except when neighbouring rows have no order yet; then the plugin keys that section first.
 
@@ -222,7 +222,7 @@ issue_template: Templates/Issue.md
 | Property | Default | Meaning |
 |---|---|---|
 | `releases` | `true` | Track releases. |
-| `statuses` | see above; without releases `[inbox, backlog, next, doing, done, canceled]` | Section vocabulary and order. Lowercase words. |
+| `statuses` | see above; without releases `[inbox, backlog, next, doing, done, canceled]` | Section vocabulary, first stage to last; the list shows them in reverse. Lowercase words. |
 | `statuses_closed` | `[released, canceled]`; without releases `[done, canceled]` | Statuses that end an issue's life. |
 | `status_released` | `released` | The status tied to a release. Must be in `statuses_closed`. |
 | `status_ship_from` | `merged` | What Ship sweeps. |
