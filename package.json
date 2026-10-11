@@ -1,6 +1,6 @@
 {
 	"name": "issues-obsidian",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "A sectioned issue list for Obsidian Bases.",
 	"private": true,
 	"type": "module",
