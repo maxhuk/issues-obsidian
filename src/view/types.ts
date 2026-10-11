@@ -42,6 +42,7 @@ export interface Actions {
 	moveToStatus(issue: Issue, status: string): Promise<void>;
 	drop(issue: Issue, target: DropTarget): Promise<void>;
 	showRowMenu(issue: Issue, x: number, y: number): void;
+	deleteIssue(issue: Issue): Promise<void>;
 	changeStatus(issue: Issue, status: string): Promise<void>;
 	patchIssue(issue: Issue, set: Record<string, unknown>, clear?: string[]): Promise<void>;
 	setRelease(issue: Issue, release: string | null): Promise<void>;

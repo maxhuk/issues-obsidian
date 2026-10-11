@@ -336,6 +336,11 @@ export class IssuesView extends BasesView implements Actions {
 		return this.commands.ship();
 	}
 
+	async deleteIssue(issue: Issue): Promise<void> {
+		const deleted = await this.commands.deleteIssue(issue);
+		if (deleted && this.selectedPath === issue.path) this.closePanel();
+	}
+
 	copyChangelog(group: ReleaseGroup): Promise<void> {
 		return this.commands.copyChangelog(group);
 	}

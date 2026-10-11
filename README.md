@@ -25,7 +25,7 @@ Runs on desktop and mobile. Requires Obsidian 1.14 or later with the Bases core 
 
 - **One list per project.** Sections follow the project's statuses: active work from the last stage down to the inbox, then the closed statuses at the end. Each row shows a type icon, the key, the title, a priority icon and label chips.
 - **Manual ordering.** Drag a row within a section to rank it, or into another section to change its status. The position is stored on the note, so it survives reloads and syncs with the vault.
-- **Row menu.** Send to top, Send to bottom, Move to any status. Right-click on desktop, hold and release on mobile.
+- **Row menu.** Send to top, Send to bottom, Move to any status, Delete. Right-click on desktop, hold and release on mobile.
 - **Detail panel.** Click a row: title, status, type, priority, labels, parent and release are editable in place; the note body renders below. Open the note itself with one click.
 - **Quick add.** An add row at the bottom of every section and a plus button in each header. Type a title, press Enter.
 - **Releases.** A release is a note. Ship moves every merged issue into it and stamps the release date. The released section groups by release, and each group can copy a changelog.
@@ -159,6 +159,7 @@ The body is yours: description, acceptance criteria, pasted screenshots, progres
 
 - Send to top / Send to bottom
 - Move to `<status>`, one entry per status
+- Delete, with a confirmation; the note goes to the trash Obsidian is set to use
 
 **Detail panel.** Click a row. On desktop the panel opens as a drawer at the right edge of the pane, beside the note's text column; on a phone it fills the screen. Status, type, priority, labels, parent and release are controls that write immediately. Created and Modified dates come from the property and the file. The copy icon next to the key copies it, for commit messages.
 

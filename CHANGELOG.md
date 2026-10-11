@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2
+
+- Delete in the row menu, with confirmation; the note goes to Obsidian's configured trash.
+
 ## 0.2.1
 
 - `status_meanings` on the project note supplies the wording of the status table in `AGENTS.md`, one `status: meaning` entry per line.

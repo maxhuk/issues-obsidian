@@ -65,6 +65,7 @@ issues-obsidian/
         detailPanel.ts
         rowMenu.ts
         releasePicker.ts  SuggestModal over planned releases + "New release…" version prompt
+        confirmModal.ts   yes/no dialog used by Delete
         parentPicker.ts   SuggestModal over the project's issues
       drag/
         dragController.ts pointer-event drag for mouse and touch: hold-to-lift, ghost, drop indicator, auto-scroll

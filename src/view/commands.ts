@@ -7,6 +7,7 @@ import { planShip } from '../model/ship';
 import { releaseChangePatch, requiresRelease, statusChangePatch, wikilink } from '../model/status';
 import { readTemplateBody } from '../vault/template';
 import { PlanWriter } from '../vault/writer';
+import { confirm } from './render/confirmModal';
 import { pickParent } from './render/parentPicker';
 import { pickRelease } from './render/releasePicker';
 import type { AddPosition, DropTarget, ViewModel } from './types';
@@ -172,6 +173,21 @@ export class Commands {
 		const version = choice.kind === 'existing' ? choice.release.version : choice.version;
 		const plans = planShip(model.config, model.issues, release, todayIso());
 		if (await this.apply(plans)) new Notice(`Shipped ${version}: ${plans.length - 1} issues released`);
+	}
+
+	/** Spec 4.2: moves the note to the trash Obsidian is configured for, after confirmation. */
+	async deleteIssue(issue: Issue): Promise<boolean> {
+		const ok = await confirm(this.host.app, `Delete ${issue.key}?`, `"${issue.title}" goes to the trash. Its attachments stay where they are.`, 'Delete');
+		if (!ok) return false;
+		const file = this.host.app.vault.getFileByPath(issue.path);
+		if (!file) return false;
+		try {
+			await this.host.app.fileManager.trashFile(file);
+			return true;
+		} catch (error) {
+			notify(error);
+			return false;
+		}
 	}
 
 	async copyChangelog(group: ReleaseGroup): Promise<void> {

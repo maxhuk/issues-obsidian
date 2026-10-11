@@ -199,6 +199,7 @@ Right-click on desktop; on mobile, hold and release without moving (4.1). The me
 - **Send to top** — new `order` before the first row of the section.
 - **Send to bottom** — new `order` after the last row of the section, keying unkeyed rows first as in 4.1.
 - **Move to <status>** — one entry per status in the project's `statuses` order (first stage first), the current status disabled. Moving places the issue at the top of the target section.
+- **Delete** — after a confirmation naming the issue, moves the note to the trash Obsidian is configured to use (system trash or `.trash` in the vault). Attachments are not touched. The detail panel closes if it showed that issue.
 
 ### 4.3 Status change rules
 
@@ -258,4 +259,3 @@ Stated so they are not built by accident:
 - Sprints, estimates, time tracking, assignees.
 - Editing the note body inside the panel.
 - Comments as a structured concept. Comments are plain paragraphs in the body.
-- Deleting or archiving issues from the list. Use the file explorer.
