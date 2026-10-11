@@ -33,7 +33,7 @@ export class NewProjectModal extends Modal {
 			window.setTimeout(() => text.inputEl.focus(), 0);
 		});
 
-		new Setting(this.contentEl).setName('Key').setDesc('Prefix for issue keys, e.g. BRE').addText((text) => {
+		new Setting(this.contentEl).setName('Key').setDesc('Uppercase prefix for issue keys; suggested from the name').addText((text) => {
 			keyInput = text.inputEl;
 			text.setPlaceholder('BRE').onChange((value) => {
 				this.key = value.toUpperCase();
