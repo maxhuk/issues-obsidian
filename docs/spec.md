@@ -115,7 +115,7 @@ views:
     name: Issues
 ```
 
-A view of this type expects exactly one note with `type: project` in its data. None, or more than one, replaces the list with a setup message. The base's own sort and group settings are ignored by this view type: sections are always statuses and rows are always in `order`.
+A view of this type expects exactly one note with `type: project` in its data. More than one replaces the list with a setup message. None, while the base still holds issues that agree on a `project` key, renders the list on default configuration with a banner naming the missing note and offering to recreate it: the key comes from the issues, the folder is the parent of their issues folder, and the recreated note carries `type` and `project` plus an embed of a same-named `.base` when one exists. Configuration beyond the defaults is set again by hand afterwards. No note and no issues shows the setup message. The base's own sort and group settings are ignored by this view type: sections are always statuses and rows are always in `order`.
 
 Further views on the same base may add Bases filters, for example `labels.contains("ops")`, to give a narrower list with the same behaviour. Filters that exclude the project note break the view; filters that exclude releases only remove those releases from grouping and pickers.
 

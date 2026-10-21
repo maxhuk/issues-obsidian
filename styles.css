@@ -11,6 +11,23 @@
 	color: var(--text-muted);
 }
 
+/* ---------- banner ---------- */
+
+.issues-banner {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-3);
+	padding: var(--size-4-2) var(--size-4-3);
+	margin: var(--size-4-2) 0;
+	border-radius: var(--radius-m);
+	background: var(--background-modifier-error);
+	color: var(--text-on-accent);
+}
+
+.issues-banner span {
+	flex: 1;
+}
+
 /* ---------- toolbar ---------- */
 
 .issues-toolbar {

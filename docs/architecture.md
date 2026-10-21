@@ -41,6 +41,7 @@ issues-obsidian/
       moves.ts            drop, send to top/bottom, move to status, order for a new row → Plan[]
       create.ts           issue and release creation → CreateNote; next number from existing keys
       createProject.ts    New project: validation, key suggestion, project note + base → plans
+      recover.ts          missing project note: infer key and folder from the issues, synthetic config, recreate plan
       ship.ts             ship-release plan → Plan[], release note first
       changelog.ts        release group → clipboard text
       agentsGuide.ts      renders a project's AGENTS.md from its ProjectConfig and the plugin version
@@ -127,7 +128,7 @@ Rules this flow enforces:
 
 ## 6. Error handling
 
-- No project note, or more than one, in the view's data renders a single setup message inside the view and nothing else.
+- More than one project note in the view's data renders a single setup message inside the view and nothing else. No project note with issues present renders the list on a configuration inferred from the issues, with a banner that recreates the note; AGENTS.md is not written while the configuration is inferred. No project note and no issues renders the setup message.
 - A project note that fails the validation in spec 2.1 renders the setup message naming the failing property.
 - With `releases` off, `ProjectConfig.releases` is `false` and every release code path (grouping, Ship, picker, panel control) is skipped at the model level, not hidden in the renderer.
 - An issue with a `status` not in the project's list is shown in an extra section headed by that value, after the configured sections, so it is never silently hidden.

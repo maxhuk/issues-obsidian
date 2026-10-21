@@ -3,6 +3,7 @@ import type { Issue, ProjectConfig, ReleaseGroup } from '../types';
 import { filterSections } from '../model/filter';
 import { partition } from '../model/partition';
 import { parseProject } from '../model/project';
+import { inferProject, syntheticProjectNote, type InferredProject } from '../model/recover';
 import { buildSections } from '../model/sections';
 import { syncAgentsGuide } from '../vault/agentsGuide';
 import { toRecords } from '../vault/entries';
@@ -144,26 +145,34 @@ export class IssuesView extends BasesView implements Actions {
 
 	private rebuildModel(): void {
 		const { projects, releases, issues } = partition(toRecords(this.app, this.data.data));
-		if (projects.length !== 1) {
+		let missingProjectNote: InferredProject | null = null;
+		let projectNote = projects[0];
+		if (projects.length > 1) {
 			this.viewModel = null;
-			this.setupMessage =
-				projects.length === 0
-					? 'No project note in this base. Add a note with `type: project` and `project: <KEY>` matching the base filter.'
-					: `This base contains ${projects.length} project notes; it needs exactly one.`;
+			this.setupMessage = `This base contains ${projects.length} project notes; it needs exactly one.`;
 			return;
 		}
-		const parsed = parseProject(projects[0]!);
+		if (projects.length === 0) {
+			missingProjectNote = inferProject(issues);
+			if (!missingProjectNote) {
+				this.viewModel = null;
+				this.setupMessage = 'No project note in this base. Add a note with `type: project` and `project: <KEY>` matching the base filter.';
+				return;
+			}
+			projectNote = syntheticProjectNote(missingProjectNote);
+		}
+		const parsed = parseProject(projectNote!);
 		if (!parsed.ok) {
 			this.viewModel = null;
-			this.setupMessage = `Project note ${projects[0]!.basename}: ${parsed.error}`;
+			this.setupMessage = `Project note ${projectNote!.basename}: ${parsed.error}`;
 			return;
 		}
 		const config = parsed.config;
-		this.keepAgentsGuideCurrent(config);
+		if (!missingProjectNote) this.keepAgentsGuideCurrent(config);
 		const merged = issues.map((issue) => this.overrides.resolve(issue));
 		const labels = [...new Set(merged.flatMap((i) => i.labels))].sort();
 		const sections = buildSections({ issues: merged, releases, config, today: todayIso(), revealed: this.revealed });
-		this.viewModel = { config, issues: merged, releases, sections, labels };
+		this.viewModel = { config, issues: merged, releases, sections, labels, missingProjectNote };
 		if (this.selectedPath !== null && !merged.some((i) => i.path === this.selectedPath)) this.selectedPath = null;
 	}
 
@@ -334,6 +343,10 @@ export class IssuesView extends BasesView implements Actions {
 
 	ship(): Promise<void> {
 		return this.commands.ship();
+	}
+
+	recoverProjectNote(): Promise<void> {
+		return this.commands.recoverProjectNote();
 	}
 
 	async deleteIssue(issue: Issue): Promise<void> {

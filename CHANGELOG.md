@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3
+
+- A base whose project note is missing still renders its issues, on default settings, with a banner that recreates the note.
+
 ## 0.2.2
 
 - Delete in the row menu, with confirmation; the note goes to Obsidian's configured trash.

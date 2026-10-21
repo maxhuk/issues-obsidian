@@ -3,6 +3,7 @@ import type { Issue, Plan, ReleaseGroup } from '../types';
 import { changelogText } from '../model/changelog';
 import { planCreateIssue, planCreateRelease } from '../model/create';
 import { groupIdFor, orderForNew, planDrop, planMoveToStatus, planSendTo } from '../model/moves';
+import { planRecoverProjectNote } from '../model/recover';
 import { planShip } from '../model/ship';
 import { releaseChangePatch, requiresRelease, statusChangePatch, wikilink } from '../model/status';
 import { readTemplateBody } from '../vault/template';
@@ -173,6 +174,16 @@ export class Commands {
 		const version = choice.kind === 'existing' ? choice.release.version : choice.version;
 		const plans = planShip(model.config, model.issues, release, todayIso());
 		if (await this.apply(plans)) new Notice(`Shipped ${version}: ${plans.length - 1} issues released`);
+	}
+
+	/** Spec 2.4: recreates a missing project note from what the issues imply. */
+	async recoverProjectNote(): Promise<void> {
+		const model = this.host.model();
+		const inferred = model?.missingProjectNote;
+		if (!inferred) return;
+		const basePath = inferred.folder === '' ? `${inferred.name}.base` : `${inferred.folder}/${inferred.name}.base`;
+		const hasBase = this.host.app.vault.getFileByPath(basePath) !== null;
+		if (await this.apply([planRecoverProjectNote(inferred, hasBase)], false)) new Notice(`Created ${inferred.notePath}`);
 	}
 
 	/** Spec 4.2: moves the note to the trash Obsidian is configured for, after confirmation. */

@@ -169,6 +169,8 @@ The body is yours: description, acceptance criteria, pasted screenshots, progres
 
 **Closed sections.** Issues in a closed status (by default `released` and `canceled`) hide after 14 days. The header shows how many are hidden and a toggle to show them.
 
+**A deleted project note.** The list keeps working on default settings and shows a banner with a button that recreates the note from what the issues imply. Settings beyond the defaults are set again by hand.
+
 ## Releases
 
 Releases are on by default and give you a `pr → merged → released` tail on the status flow.

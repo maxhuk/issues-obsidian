@@ -1,4 +1,5 @@
 import type { Issue, ProjectConfig, Release, ReleaseGroup, Section } from '../types';
+import type { InferredProject } from '../model/recover';
 
 export interface ViewModel {
 	config: ProjectConfig;
@@ -7,6 +8,8 @@ export interface ViewModel {
 	sections: Section[];
 	/** Labels in use across the project, for suggestions. */
 	labels: string[];
+	/** Set when the project note is missing and the configuration is the default inferred from the issues. */
+	missingProjectNote: InferredProject | null;
 }
 
 export interface DropTarget {
@@ -48,6 +51,7 @@ export interface Actions {
 	setRelease(issue: Issue, release: string | null): Promise<void>;
 	pickParent(issue: Issue): void;
 	ship(): Promise<void>;
+	recoverProjectNote(): Promise<void>;
 	copyChangelog(group: ReleaseGroup): Promise<void>;
 	beginInteraction(): void;
 	endInteraction(): void;
